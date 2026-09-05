@@ -14,7 +14,7 @@ import (
 	"github.com/mkarson1997/karzoun-atlasmesh/internal/api"
 )
 
-const version = "0.1.0-dev"
+var version = "0.1.0-dev"
 
 func main() {
 	if len(os.Args) < 2 {
@@ -34,6 +34,7 @@ func main() {
 		os.Exit(2)
 	}
 }
+
 func runServer(args []string) error {
 	fs := flag.NewFlagSet("server", flag.ContinueOnError)
 	listen := fs.String("listen", ":8080", "HTTP listen address")
@@ -41,9 +42,18 @@ func runServer(args []string) error {
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
+
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
 	handler := api.NewServer(nil, nil, nil, nil, logger).Handler()
-	server := &http.Server{Addr: *listen, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 15 * time.Second, IdleTimeout: 60 * time.Second}
+	server := &http.Server{
+		Addr:              *listen,
+		Handler:           handler,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       15 * time.Second,
+		WriteTimeout:      15 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
+
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	errCh := make(chan error, 1)
@@ -56,6 +66,7 @@ func runServer(args []string) error {
 		}
 		errCh <- nil
 	}()
+
 	select {
 	case err := <-errCh:
 		return err
@@ -65,6 +76,7 @@ func runServer(args []string) error {
 		return server.Shutdown(shutdownCtx)
 	}
 }
+
 func usage() {
 	fmt.Fprintln(os.Stderr, "AtlasMesh distributed control-plane foundation")
 	fmt.Fprintln(os.Stderr, "usage: atlasmesh <server|version> [options]")

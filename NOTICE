@@ -1,0 +1,6 @@
+Karzoun AtlasMesh
+Copyright 2026 Mahmoud Karzoun
+
+Licensed under the Apache License, Version 2.0.
+
+AtlasMesh uses the Go standard library at runtime. Developer and CI tooling may download third-party tools under their respective licenses; those tools are not redistributed as part of the AtlasMesh runtime binary unless explicitly stated in a release artifact.
