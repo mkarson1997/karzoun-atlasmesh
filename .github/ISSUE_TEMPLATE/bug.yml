@@ -1,0 +1,21 @@
+name: Bug report
+description: Report reproducible incorrect AtlasMesh behavior
+title: "bug: "
+body:
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Include the expected behavior and observed behavior. Do not include secrets.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction
+      description: Minimal steps, requests or test case.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Version / commit
+    validations:
+      required: true

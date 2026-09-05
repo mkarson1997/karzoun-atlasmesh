@@ -1,0 +1,16 @@
+name: Feature proposal
+description: Propose a focused control-plane capability
+title: "feat: "
+body:
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What distributed-systems or operational problem should be solved?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed behavior
+      description: Include failure, retry and ownership semantics where relevant.
+    validations:
+      required: true
