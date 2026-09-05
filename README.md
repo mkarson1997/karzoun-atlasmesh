@@ -1,5 +1,11 @@
 # Karzoun AtlasMesh
 
+[![CI](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/ci.yml/badge.svg)](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/codeql.yml/badge.svg)](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/github/v/release/mkarson1997/karzoun-atlasmesh)](https://github.com/mkarson1997/karzoun-atlasmesh/releases/latest)
+[![License](https://img.shields.io/github/license/mkarson1997/karzoun-atlasmesh)](LICENSE)
+[![Go](https://img.shields.io/github/go-mod/go-version/mkarson1997/karzoun-atlasmesh)](go.mod)
+
 > A Go control-plane foundation for service discovery, expiring leases, health-aware resolution, cluster membership and at-least-once distributed job execution.
 
 AtlasMesh is project **03/41** in the Karzoun engineering portfolio. The v0.1 foundation deliberately focuses on small, testable distributed-systems primitives before adding a replicated storage backend.
@@ -34,7 +40,30 @@ AtlasMesh turns those questions into explicit Go APIs with deterministic behavio
 
 > Current boundary: v0.1 state is in-memory and process-local. It demonstrates the coordination semantics, API contracts and failure behavior. Replicated/durable state is a roadmap milestone, not a claim hidden behind the word “distributed”.
 
-## Quick start
+## Install and run
+
+### Prebuilt binaries
+
+`v0.1.0` ships signed-by-GitHub release metadata plus SHA-256 checksums for:
+
+- Linux amd64
+- Linux arm64
+- macOS amd64
+- macOS arm64
+- Windows amd64
+
+Download from the [v0.1.0 release](https://github.com/mkarson1997/karzoun-atlasmesh/releases/tag/v0.1.0) and verify the artifact against `SHA256SUMS.txt` before use.
+
+### Container
+
+```bash
+docker pull ghcr.io/mkarson1997/karzoun-atlasmesh:0.1.0
+docker run --rm -p 8080:8080 ghcr.io/mkarson1997/karzoun-atlasmesh:0.1.0
+```
+
+The image uses a multi-stage build and a non-root `scratch` runtime.
+
+### From source
 
 Requires Go 1.26+; CI validates the supported toolchains.
 
@@ -135,6 +164,10 @@ make vuln
 ```
 
 The repository is intentionally dependency-light. Core runtime behavior uses only the Go standard library; `govulncheck` is pinned as a CI/developer tool.
+
+## Release engineering
+
+Version tags drive the release workflow. A `v*` tag builds cross-platform binaries, produces SHA-256 checksums, publishes a GitHub Release, and pushes matching version + `latest` images to GitHub Container Registry.
 
 ## Security
 
