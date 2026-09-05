@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use AtlasMesh in research, benchmarks or engineering education, please cite this software."
+title: "Karzoun AtlasMesh"
+type: software
+authors:
+  - family-names: Karzoun
+    given-names: Mahmoud
+repository-code: "https://github.com/mkarson1997/karzoun-atlasmesh"
+url: "https://github.com/mkarson1997/karzoun-atlasmesh"
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-09-05
+keywords:
+  - distributed-systems
+  - golang
+  - service-discovery
+  - leases
+  - job-queue
+  - control-plane
