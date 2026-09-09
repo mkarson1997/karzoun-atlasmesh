@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/ci.yml/badge.svg)](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/codeql.yml/badge.svg)](https://github.com/mkarson1997/karzoun-atlasmesh/actions/workflows/codeql.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=mkarson1997_karzoun-atlasmesh&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mkarson1997_karzoun-atlasmesh)
 [![Release](https://img.shields.io/github/v/release/mkarson1997/karzoun-atlasmesh)](https://github.com/mkarson1997/karzoun-atlasmesh/releases/latest)
 [![License](https://img.shields.io/github/license/mkarson1997/karzoun-atlasmesh)](LICENSE)
 [![Go](https://img.shields.io/github/go-mod/go-version/mkarson1997/karzoun-atlasmesh)](go.mod)
@@ -21,6 +22,22 @@ Modern backends need more than an HTTP server. They need to answer questions suc
 - How does a control plane expose health and operational metrics without leaking payloads?
 
 AtlasMesh turns those questions into explicit Go APIs with deterministic behavior and tests.
+
+## Engineering proof points
+
+| Area | What the repository demonstrates |
+| --- | --- |
+| Lease semantics | TTL-based service and node liveness plus expiring job ownership with explicit stale-owner rejection. |
+| Fencing | A worker that loses its lease cannot heartbeat, complete or fail work after another owner acquires it. |
+| Failure-aware jobs | At-least-once claims, bounded retries and terminal dead-letter state. |
+| Health-aware discovery | Deterministic weighted resolution excludes expired/unhealthy service instances. |
+| Network API engineering | Bounded JSON/body inputs, server timeouts, graceful shutdown and health/readiness endpoints. |
+| Observability | Structured `slog` request events and dependency-free Prometheus text metrics without payload/result logging by default. |
+| Concurrency verification | Race-detector tests run across supported Go toolchains. |
+| Security verification | `govulncheck`, CodeQL `security-extended`, SonarQube Cloud and Dependabot. |
+| Minimal runtime | Core control-plane behavior uses the Go standard library and the container runs as a non-root numeric user in `scratch`. |
+| Release engineering | Cross-platform binaries, SHA-256 manifest and tag-driven GHCR publication. |
+| Supply-chain hygiene | CI, CodeQL and release GitHub Actions are pinned to reviewed immutable commit SHAs. |
 
 ## v0.1 capabilities
 
@@ -154,7 +171,7 @@ GET /v1/cluster/status
              Replicated/Durable Store (roadmap)
 ```
 
-See [`docs/architecture.md`](docs/architecture.md) for invariants and failure semantics.
+See [`docs/architecture.md`](docs/architecture.md) for invariants, trust boundaries and failure semantics.
 
 ## Development
 
@@ -168,6 +185,10 @@ The repository is intentionally dependency-light. Core runtime behavior uses onl
 ## Release engineering
 
 Version tags drive the release workflow. A `v*` tag builds cross-platform binaries, produces SHA-256 checksums, publishes a GitHub Release, and pushes matching version + `latest` images to GitHub Container Registry.
+
+## Explicit boundaries
+
+AtlasMesh v0.1 does not claim durable cross-process state, consensus, globally consistent cluster membership, exactly-once work execution, or a built-in production authentication/authorization plane. Those are separate milestones with stronger storage and security requirements.
 
 ## Security
 
